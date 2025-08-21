@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_business_ads_account_all,business.ads.account all,model_ads_business_account,base.group_user,1,1,1,1
+access_ads_account_all,ads.account all,model_ads_account,base.group_user,1,1,1,1
+access_social_network_page_all,social.network.page all,model_social_network_page,base.group_user,1,1,1,1

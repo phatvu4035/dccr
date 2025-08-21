@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ads_account_form" model="ir.ui.view">
+            <field name="name">ads.account.form</field>
+            <field name="model">ads.account</field>
+            <field name="arch" type="xml">
+                <form string="Ads Business Account">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="account_id"/>
+                                <field name="platform"/>
+                                <field name="business_account_id"/>
+                                <field name="account_status"/>
+                                <field name="business_name"/>
+                                <field name="owner_name"/>
+                                <field name="owner_email"/>
+                            </group>
+                            <group>
+                                <field name="platform"/>
+                                <field name="balance"/>
+                                <field name="total_spent"/>
+                                <field name="account_status"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ads_account_list" model="ir.ui.view">
+            <field name="name">ads.account.list</field>
+            <field name="model">ads.account</field>
+            <field name="arch" type="xml">
+                <list string="Líst of Ads Account">
+                    <field name="name" />
+                    <field name="platform" />
+                    <field name="account_id" />
+                    <field name="business_account_id" />
+                    <field name="business_name" />
+                    <field name="owner_name" />
+                    <field name="owner_email" />
+                    <field name="owner_phone" />
+                    <field name="account_status" />
+                </list>
+            </field>
+        </record>
+
+        <record id="view_ads_account_kanban" model="ir.ui.view">
+            <field name="name">ads.account.kanban</field>
+            <field name="model">ads.account</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="card">
+                            <div class="row">
+                                <div class="col-8">
+                                    <field class="fw-bolder" name="name"/>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <field class="badge rounded-pill" name="platform"/>
+                                </div>
+                            </div>
+                            <div>
+                                <strong>Ads Account ID: </strong>
+                                <field name="account_id"/>
+                            </div>
+                            <div>
+                                <strong>Business Account ID: </strong>
+                                <field name="business_account_id"/>
+                            </div>
+                            <div>
+                                <strong>Business Name: </strong>
+                                <field name="business_name"/>
+                            </div>
+
+                            <div>
+                                <strong>Owner Name: </strong>
+                                <field name="owner_name"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_ads_account_search" model="ir.ui.view">
+            <field name="name">ads.account.search</field>
+            <field name="model">ads.account</field>
+            <field name="arch" type="xml">
+                <search string="Ads Account">
+                    <field name="name" string="Account Name"/>
+                    <field name="account_id" string="Ads Account ID"/>
+                    <filter string="Facebook" name="facebook" domain="[('platform','=','facebook')]"/>
+                    <filter string="Google" name="google" domain="[('platform','=','google')]"/>
+                    <filter string="Tiktok" name="tiktok" domain="[('platform','=','tiktok')]"/>
+                    <filter string="Shopee" name="shopee" domain="[('platform','=','shopee')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Platform" name="platform" context="{'group_by':'platform'}"/>
+                        <filter string="Business Account ID" name="business_account_id" context="{'group_by':'business_account_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ads_account" model="ir.actions.act_window">
+            <field name="name">Ads Accounts</field>
+            <field name="res_model">ads.account</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="dccr_ads_management.view_ads_account_search"/>
+             <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Ads Account
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

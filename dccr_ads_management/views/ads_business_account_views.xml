@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ads_business_account_form" model="ir.ui.view">
+            <field name="name">ads.business.account.form</field>
+            <field name="model">ads.business.account</field>
+            <field name="arch" type="xml">
+                <form string="Ads Business Account">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="business_id"/>
+                                <field name="account_email"/>
+                                <field name="phone"/>
+                                <field name="address"/>
+                            </group>
+                            <group>
+                                <field name="platform"/>
+                                <field name="company_name"/>
+                                <field name="api_key"/>
+                                <field name="status"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ads_business_account_list" model="ir.ui.view">
+            <field name="name">ads.business.account.list</field>
+            <field name="model">ads.business.account</field>
+            <field name="arch" type="xml">
+                <list string="List of BC, BM, Google Ads Manager Account...">
+                    <field name="name"/>
+                    <field name="business_id"/>
+                    <field name="account_email"/>
+                    <field name="phone"/>
+                    <field name="platform"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_ads_business_account_kanban" model="ir.ui.view">
+            <field name="name">ads.business.account.kanban</field>
+            <field name="model">ads.business.account</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="card">
+                            <div class="row">
+                                <div class="col-8">
+                                    <field class="fw-bolder" name="name"/>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <field class="badge rounded-pill" name="platform"/>
+                                </div>
+                            </div>
+                            <div>
+                                <strong>Business ID: </strong>
+                                <field name="business_id"/>
+                            </div>
+                            <div>
+                                <strong>Account Email: </strong>
+                                <field name="account_email"/>
+                            </div>
+                            <div>
+                                <strong>Phone: </strong>
+                                <field name="phone"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_ads_business_account_search" model="ir.ui.view">
+            <field name="name">ads.business.account.search</field>
+            <field name="model">ads.business.account</field>
+            <field name="arch" type="xml">
+                <search string="Ads Business Account">
+                    <field name="name" string="Account Name"/>
+                    <field name="business_id" string="Business/Manager ID"/>
+                    <filter string="Facebook" name="facebook" domain="[('platform','=','facebook')]"/>
+                    <filter string="Google" name="google" domain="[('platform','=','google')]"/>
+                    <filter string="Tiktok" name="tiktok" domain="[('platform','=','tiktok')]"/>
+                    <filter string="Shopee" name="shopee" domain="[('platform','=','shopee')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Platform" name="platform" context="{'group_by':'platform'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ads_business_account" model="ir.actions.act_window">
+            <field name="name">Business Ads Accounts</field>
+            <field name="res_model">ads.business.account</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="dccr_ads_management.view_ads_business_account_search"/>
+             <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Business Ads Account
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem
+            id="menu_ads_manager_root"
+            name="Ads Manager"
+            action="action_ads_business_account"
+            groups="base.group_user"
+            sequence="185"
+        />
+        <menuitem
+            id="menu_business_ads_account"
+            name="Business Ads Account"
+            parent="menu_ads_manager_root"
+            action="action_ads_business_account"
+            groups="base.group_user"
+            sequence="0"/>
+
+        <menuitem
+            id="menu_ads_account"
+            name="Ads Account"
+            parent="menu_ads_manager_root"
+            action="action_ads_account"
+            groups="base.group_user"
+            sequence="3"/>
+
+        <menuitem
+            id="menu_social_network_page"
+            name="Pages"
+            parent="menu_ads_manager_root"
+            action="action_social_network_page"
+            groups="base.group_user"
+            sequence="6"/>
+    </data>
+</odoo>

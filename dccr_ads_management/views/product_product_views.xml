@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="product_product_expense_form_view_ads_expense" model="ir.ui.view">
+            <field name="name">product.product.expense.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="hr_expense.product_product_expense_form_view"/>
+            <field name="priority">25</field>
+            <field name="arch" type="xml">
+                <field name="supplier_taxes_id" position="after">
+                    <field name="expense_type" invisible="not can_be_expensed"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_ads_expense_category" model="ir.actions.act_window">
+            <field name="name">Ads Expenses Category</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+            <field name="context">{"default_can_be_expensed": 1, 'default_type': 'service', 'ads_manager_expense': 1}</field>
+            <field name="domain">[('can_be_expensed', '=', True), ('expense_type', 'in', ('ads_account_expense', 'campaign_expense'))]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No ads expense categories found. Let's create one!
+              </p><p>
+                Ads Expense categories can be reinvoiced to your customers.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_ads_expense_category_view_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_ads_expense_category"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_product_expense_form_view_ads_expense"/>
+            <field name="sequence">25</field>
+        </record>
+
+        <record id="action_ads_expense_category_view_kanban" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_ads_expense_category"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="hr_expense.product_product_expense_kanban_view"/>
+            <field name="sequence">22</field>
+        </record>
+
+        <record id="action_ads_expense_category_view_list" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_ads_expense_category"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="hr_expense.product_product_expense_categories_tree_view"/>
+            <field name="sequence">19</field>
+        </record>
+
+    </data>
+</odoo>

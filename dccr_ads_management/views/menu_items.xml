@@ -9,9 +9,16 @@
             sequence="185"
         />
         <menuitem
+            id="menu_ads_manager"
+            name="Ads Account"
+            parent="menu_ads_manager_root"
+            groups="base.group_user"
+            sequence="1"
+        />
+        <menuitem
             id="menu_business_ads_account"
             name="Business Ads Account"
-            parent="menu_ads_manager_root"
+            parent="menu_ads_manager"
             action="action_ads_business_account"
             groups="base.group_user"
             sequence="0"/>
@@ -19,7 +26,7 @@
         <menuitem
             id="menu_ads_account"
             name="Ads Account"
-            parent="menu_ads_manager_root"
+            parent="menu_ads_manager"
             action="action_ads_account"
             groups="base.group_user"
             sequence="3"/>
@@ -31,5 +38,31 @@
             action="action_social_network_page"
             groups="base.group_user"
             sequence="6"/>
+
+        <menuitem
+            id="menu_ads_campaign"
+            name="Ads Campaign"
+            parent="menu_ads_manager_root"
+            action="action_ads_campaign_account"
+            groups="base.group_user"
+            sequence="9"/>
+
+        <menuitem
+            id="menu_ads_expense"
+            name="Ads Expense"
+            parent="menu_ads_manager_root"
+            action="action_ads_expense_all"
+            groups="base.group_user"
+            sequence="12"/>
+
+        <menuitem
+            id="menu_ads_manager_configuration"
+            name="Configuration"
+            parent="menu_ads_manager_root"
+            groups="base.group_user"
+            sequence="15"/>
+
+        <menuitem id="menu_hr_product" name="Ads Expense Categories" parent="menu_ads_manager_configuration"
+            action="action_ads_expense_category" groups="base.group_user" sequence="10"/>
     </data>
 </odoo>

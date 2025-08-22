@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_expense_form_view_ads_expense" model="ir.ui.view">
+            <field name="name">hr.expense.view.form</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field eval="39" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="bill_id"/>
+                    <field name="ad_account_id"/>
+                    <field name="due_date"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_my_expenses_tree_ads_expense" model="ir.ui.view">
+            <field name="name">hr.expense.list</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="priority">25</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="bill_id"/>
+                    <field name="ad_account_id"/>
+                    <field name="due_date"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_ads_expense_all" model="ir.actions.act_window">
+            <field name="name">Ads Expenses Analysis</field>
+            <field name="res_model">hr.expense</field>
+            <field name="view_mode">graph,pivot,list,form</field>
+            <field name="search_view_id" ref="hr_expense.hr_expense_view_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    No data yet!
+                </p><p>
+                    Create new expenses to get statistics.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

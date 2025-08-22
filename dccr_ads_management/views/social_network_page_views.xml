@@ -19,7 +19,7 @@
                                 <field name="address"/>
                             </group>
                             <group>
-                                <field name="ad_account_id"/>
+                                <field name="ad_account_id" domain="[('platform', '=', platform)]"/>
                                 <field name="is_published"/>
                                 <field name="verification_status"/>
                             </group>

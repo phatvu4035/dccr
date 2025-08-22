@@ -43,6 +43,13 @@ class AdsAccount(models.Model):
         ('invoice', 'Invoice (Postpaid)'),
         ('other', 'Other'),
     ], string="Payment Method", help="Main payment method linked to the account")
+
+    # --- Campaign ---
+    campaign_ids = fields.One2many(
+        'ads.campaign', 'ad_account_id',
+        string='Ads Campaign',
+        help="List of running ads campaigns related to this account"
+    )
     # billing_account_id = fields.Char("Billing Account ID", help="Billing profile or payment account ID")
     # last_payment_date = fields.Datetime("Last Payment Date", help="Date of last payment made")
     # last_payment_amount = fields.Float("Last Payment Amount", help="Amount of last payment")

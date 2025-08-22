@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_ads_manager_marketer" model="res.groups">
+        <field name="name">Marketer: Manage their ads account</field>
+        <field name="implied_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+        <field name="comment">The user will be able to manage their ads account.</field>
+    </record>
+
+    <record id="group_ads_manager_manage_all" model="res.groups">
+        <field name="name">Manager: Manage all ads account</field>
+        <field name="implied_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+        <field name="comment">The user will be able to manage all ads account.</field>
+    </record>
+</odoo>

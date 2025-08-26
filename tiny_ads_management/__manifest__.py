@@ -16,7 +16,7 @@ This module is ideal for marketing teams, agencies, and businesses looking to op
     'category': 'Marketing',
     'author': 'DCCR / Phat Vu',
     'website': 'https://dccr.com',
-    'depends': ['base', 'tiny_contacts', 'hr_expense'],
+    'depends': ['base', 'tiny_contacts', 'tiny_hr_expense', 'hr_expense'],
     'data': [
         'security/ads_manager_security.xml',
         'security/ir.model.access.csv',

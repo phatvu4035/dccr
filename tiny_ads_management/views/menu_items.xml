@@ -74,5 +74,14 @@
 
         <menuitem id="menu_page_category" name="Page Category" parent="menu_ads_manager_advertising"
             action="action_page_category" groups="base.group_user" sequence="10"/>
+
+        <menuitem id="menu_sale_team" name="Sale Teams" parent="menu_ads_manager_advertising"
+            action="sales_team.crm_team_action_config" groups="base.group_user" sequence="15"/>
+
+        <menuitem id="menu_sale_members" name="Sale Members" parent="menu_ads_manager_advertising"
+            action="sales_team.crm_team_member_action" groups="base.group_user" sequence="20"/>
+
+        <menuitem id="menu_utm_source" name="Source" parent="menu_ads_manager_advertising"
+            action="utm.utm_source_action" groups="base.group_user" sequence="25"/>
     </data>
 </odoo>

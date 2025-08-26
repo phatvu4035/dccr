@@ -16,14 +16,31 @@
                                 <field name="platform"/>
                                 <field name="account_id"/>
                                 <field name="ads_manager_account_id" domain="[('platform', '=', platform)]"/>
+                                <field name="mapped_expense_ad_account_id"/>
                             </group>
                             <group>
+                                <field name="timezone"/>
+                                <field name="currency_id"/>
                                 <field name="access_token"/>
                                 <field name="refresh_token"/>
                                 <field name="token_expired_date"/>
                             </group>
                         </group>
                         <notebook>
+                            <page string="Expense Ad Account" name="expense_ad_account">
+                                <group>
+                                    <group>
+                                        <field name="acc_number" />
+                                        <field name="acc_name" />
+                                        <field name="employee_id" />
+                                        <field name="possession_type" />
+                                        <field name="bank_id" />
+                                    </group>
+                                    <group>
+                                        <field name="marketing_employee_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
                             <page string="Ads Campaign" name="ads_campaign">
                                 <field name="campaign_ids" nolabel="1">
                                     <list editable="bottom">

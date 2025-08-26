@@ -7,3 +7,4 @@ from . import ads_campaign
 from . import hr_expense
 from . import product_product
 from . import page_category
+from . import ads_expense_line

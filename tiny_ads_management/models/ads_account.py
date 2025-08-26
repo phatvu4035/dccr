@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import api, models, fields
 import pytz
 
 class AdsAccount(models.Model):
@@ -13,7 +13,7 @@ class AdsAccount(models.Model):
         ('shopee', 'Shopee Ads'),
         ('google', 'Google Ads'),
     ], string="Platform", required=True, help="Advertising platform where this account belongs")
-    account_id = fields.Char("Account ID", required=True, help="Unique identifier from the platform")
+    account_id = fields.Char("Account ID", required=True, help="Unique identifier from the platform", )
     ads_manager_account_id = fields.Many2one("ads.manager.account", string="Business Account", help="Business/Manager Account ID (BM, MCC, BC, etc.)")
     state = fields.Selection(selection=[
             ('unauthorised', 'Unauthorised'),
@@ -30,6 +30,13 @@ class AdsAccount(models.Model):
         default="UTC",
         help="Timezone used for scheduling and displaying date/time information related to this record."
     )
+    mapped_expense_ad_account_id = fields.Many2one("tiny.expense.ad.account", string="Expense Ad Account")
+    acc_number = fields.Char("Account Number", related="mapped_expense_ad_account_id.acc_number")
+    acc_name = fields.Char("Account Name", related="mapped_expense_ad_account_id.acc_name")
+    employee_id = fields.Char("Managing Employee", related="mapped_expense_ad_account_id.employee_id")
+    possession_type = fields.Char("Possession Type", related="mapped_expense_ad_account_id.possession_type")
+    bank_id = fields.Char("Bank", related="mapped_expense_ad_account_id.bank_id")
+    marketing_employee_ids = fields.Many2many(string="Marketing Employees", related="mapped_expense_ad_account_id.marketing_employee_ids")
 
     # --- Campaign ---
     campaign_ids = fields.One2many(
@@ -54,3 +61,10 @@ class AdsAccount(models.Model):
 
     # --- Metadata ---
     notes = fields.Text("Notes", help="Internal notes or comments about the account")
+
+    @api.onchange("account_id")
+    def _onchange_account_id(self):
+        if self.account_id:
+            accounts = self.env["tiny.expense.ad.account"].search([("acc_number", "=", self.account_id)])
+            if accounts:
+                self.mapped_expense_ad_account_id = accounts[0]

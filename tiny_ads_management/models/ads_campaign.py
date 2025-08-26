@@ -48,11 +48,15 @@ class AdsCampaign(models.Model):
         string="Objective",
         help="The marketing objective of this campaign, e.g., traffic, sales, or brand awareness."
     )
+
+    ads_expense_line_ids = fields.One2many("ads.expense.line", "campaign_id", string="Ads Expenses")
+
     utm_source_id = fields.Many2one("utm.source", string="Source")
     marketing_user_id = fields.Many2one("res.users", _compute="_compute_utm_source_field", string="Marketing User")
     marketing_team_id = fields.Many2one("crm.team", _compute="_compute_utm_source_field", string="Marketing Team")
     marketing_company_id = fields.Many2one("crm.team", _compute="_compute_utm_source_field", string="Marketing Company")
     marketing_brand_id = fields.Many2one("utm.medium", _compute="_compute_utm_source_field", string="MKT Brand")
+    product_brand_id = fields.Many2one("utm.medium", _compute="_compute_utm_source_field", string="Product Brand")
 
     company_id = fields.Many2one("res.company", string="Company")
     state = fields.Selection(
@@ -126,11 +130,11 @@ class AdsCampaign(models.Model):
     )
 
     # --- Metadata ---
-    created_time = fields.Datetime(
+    campaign_created_time = fields.Datetime(
         string="Created Time",
         help="The date and time when the campaign was created on the platform."
     )
-    updated_time = fields.Datetime(
+    campaign_updated_time = fields.Datetime(
         string="Updated Time",
         help="The date and time when the campaign was last updated on the platform."
     )
@@ -143,6 +147,7 @@ class AdsCampaign(models.Model):
             rec.marketing_team_id = rec.utm_source_id.marketing_team_id
             rec.marketing_company_id = rec.utm_source_id.marketing_company_id
             rec.marketing_brand_id = rec.utm_source_id.marketing_brand_id
+            rec.product_brand_id = rec.utm_source_id.product_brand_id
 
     def _search_marketing_users(self, operator, value):
         marketing_users = self.env['res.users'].search([('name', 'ilike', f"%{value}%")])

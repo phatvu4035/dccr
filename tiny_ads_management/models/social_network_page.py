@@ -75,7 +75,7 @@ class SocialNetworkPage(models.Model):
         string="Verification Status",
         help="Verification status of the page."
     )
-    created_time = fields.Datetime(
+    page_created_time = fields.Datetime(
         string="Created Time",
         help="The date and time when the page was created."
     )

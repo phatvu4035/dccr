@@ -6,34 +6,45 @@
             <field name="model">ads.account</field>
             <field name="arch" type="xml">
                 <form string="Ads Business Account">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="account_id"/>
                                 <field name="platform"/>
-                                <field name="business_account_id" domain="[('platform', '=', platform)]"/>
-                                <field name="business_name"/>
-                                <field name="owner_name"/>
-                                <field name="owner_email"/>
+                                <field name="account_id"/>
+                                <field name="ads_manager_account_id" domain="[('platform', '=', platform)]"/>
                             </group>
                             <group>
-                                <field name="platform"/>
-                                <field name="balance"/>
-                                <field name="total_spent"/>
-                                <field name="account_status"/>
+                                <field name="access_token"/>
+                                <field name="refresh_token"/>
+                                <field name="token_expired_date"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Ads Campaign" name="ads_campaign">
                                 <field name="campaign_ids" nolabel="1">
                                     <list editable="bottom">
-                                        <field name="name" force_save="1"/>
+                                        <field name="name"/>
                                         <field name="campaign_id"/>
                                         <field name="objective"/>
                                         <field name="start_time"/>
                                         <field name="end_time"/>
-                                        <field name="status"/>
+                                        <field name="state"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Pages" name="pages">
+                                <field name="page_ids" nolabel="1">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="page_id"/>
+                                        <field name="url"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                        <field name="website"/>
                                     </list>
                                 </field>
                             </page>
@@ -51,12 +62,8 @@
                     <field name="name" />
                     <field name="platform" />
                     <field name="account_id" />
-                    <field name="business_account_id" />
-                    <field name="business_name" />
-                    <field name="owner_name" />
-                    <field name="owner_email" />
-                    <field name="owner_phone" />
-                    <field name="account_status" />
+                    <field name="ads_manager_account_id" />
+                    <field name="state" widget="badge"/>
                 </list>
             </field>
         </record>
@@ -69,11 +76,13 @@
                     <templates>
                         <t t-name="card">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-6">
                                     <field class="fw-bolder" name="name"/>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <field class="badge rounded-pill" name="platform"/>
+                                <div class="col-6 text-end">
+                                    <field class="badge rounded-pill" name="platform" widget="badge" decoration-info="platform in ['facebook', 'google']"
+                                        decoration-warning="platform == 'tiktok'"
+                                        decoration-success="platform == 'shopee'"/>
                                 </div>
                             </div>
                             <div>
@@ -81,17 +90,19 @@
                                 <field name="account_id"/>
                             </div>
                             <div>
-                                <strong>Business Account ID: </strong>
-                                <field name="business_account_id"/>
-                            </div>
-                            <div>
-                                <strong>Business Name: </strong>
-                                <field name="business_name"/>
+                                <strong invisible="platform != 'facebook'">ID Business Management: </strong>
+                                <strong invisible="platform != 'google'">ID Customer: </strong>
+                                <strong invisible="platform != 'tiktok'">ID Business Center: </strong>
+                                <strong invisible="platform != 'shopee'">ID Shop: </strong>
+                                <field name="ads_manager_account_id"/>
                             </div>
 
                             <div>
-                                <strong>Owner Name: </strong>
-                                <field name="owner_name"/>
+                                <strong>State: </strong>
+                                <field name="state" widget="badge" invisible="state != 'unauthorised'" options="{'class': 'bg-secondary'}"/>
+                                <field name="state" widget="badge" invisible="state != 'authorised'" options="{'class': 'bg-success'}"/>
+                                <field name="state" widget="badge" invisible="state != 'error'" options="{'class': 'bg-danger'}"/>
+                                <field name="state" widget="badge" invisible="state != 'expired'" options="{'class': 'bg-warning'}"/>
                             </div>
                         </t>
                     </templates>
@@ -111,9 +122,14 @@
                     <filter string="Tiktok" name="tiktok" domain="[('platform','=','tiktok')]"/>
                     <filter string="Shopee" name="shopee" domain="[('platform','=','shopee')]"/>
                     <separator/>
+                    <filter string="Unauthorised" name="unauthorised" domain="[('state','=','unauthorised')]"/>
+                    <filter string="Authorised" name="authorised" domain="[('state','=','authorised')]"/>
+                    <filter string="Error" name="error" domain="[('state','=','error')]"/>
+                    <filter string="Expired" name="expired" domain="[('state','=','expired')]"/>
                     <group expand="0" string="Group By">
                         <filter string="Platform" name="platform" context="{'group_by':'platform'}"/>
-                        <filter string="Business Account ID" name="business_account_id" context="{'group_by':'business_account_id'}"/>
+                        <filter string="Business Account ID" name="business_account_id" context="{'group_by':'ads_manager_account_id'}"/>
+                        <filter string="State" name="state" context="{'group_by':'state'}"/>
                     </group>
                 </search>
             </field>
@@ -123,7 +139,7 @@
             <field name="name">Ads Accounts</field>
             <field name="res_model">ads.account</field>
             <field name="view_mode">list,kanban,form</field>
-            <field name="search_view_id" ref="dccr_ads_management.view_ads_account_search"/>
+            <field name="search_view_id" ref="tiny_ads_management.view_ads_account_search"/>
              <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">

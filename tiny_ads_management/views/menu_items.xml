@@ -4,7 +4,7 @@
         <menuitem
             id="menu_ads_manager_root"
             name="Ads Manager"
-            action="action_ads_business_account"
+            action="action_ads_manager_account"
             groups="base.group_user"
             sequence="185"
         />
@@ -16,10 +16,10 @@
             sequence="1"
         />
         <menuitem
-            id="menu_business_ads_account"
-            name="Business Ads Account"
+            id="menu_ads_manager_account"
+            name="Ads Manager Account"
             parent="menu_ads_manager"
-            action="action_ads_business_account"
+            action="action_ads_manager_account"
             groups="base.group_user"
             sequence="0"/>
 
@@ -62,7 +62,17 @@
             groups="base.group_user"
             sequence="15"/>
 
+        <menuitem
+            id="menu_ads_manager_advertising"
+            name="Advertising"
+            parent="menu_ads_manager_configuration"
+            groups="base.group_user"
+            sequence="15"/>
+
         <menuitem id="menu_hr_product" name="Ads Expense Categories" parent="menu_ads_manager_configuration"
             action="action_ads_expense_category" groups="base.group_user" sequence="10"/>
+
+        <menuitem id="menu_page_category" name="Page Category" parent="menu_ads_manager_advertising"
+            action="action_page_category" groups="base.group_user" sequence="10"/>
     </data>
 </odoo>

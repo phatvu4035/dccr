@@ -6,7 +6,7 @@ class ProductProduct(models.Model):
     expense_type = fields.Selection(
         selection=[
             ("ads_account_expense", "Ads Account Expense"),
-            ("campaign_expense", "Campaign Expense"),
+            ("ads_campaign_expense", "Ads Campaign Expense"),
         ],
         string="Expense Type",
         help="Classify the product for expense reporting:\n"

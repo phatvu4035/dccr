@@ -19,6 +19,7 @@ class SocialNetworkPage(models.Model):
         index=True,
         help="Unique identifier of the page from the social platform (e.g. Facebook Page ID)."
     )
+    description = fields.Char(string="Page Description")
     platform = fields.Selection(
         [
             ("facebook", "Facebook"),
@@ -37,10 +38,11 @@ class SocialNetworkPage(models.Model):
         required=True
     )
 
-    link = fields.Char(
+    url = fields.Char(
         string="Page URL",
         help="The full URL to the page."
     )
+    profile_picture_url = fields.Char(string="Profile Picture URL")
 
     # -------------------------
     # Contact & Location
@@ -61,55 +63,14 @@ class SocialNetworkPage(models.Model):
         string="Address",
         help="Street address of the business."
     )
-    city = fields.Char(
-        string="City",
-        help="City where the business is located."
-    )
-    country = fields.Char(
-        string="Country",
-        help="Country where the business is located."
-    )
-    zip_code = fields.Char(
-        string="Zip Code",
-        help="Postal code of the business location."
-    )
-
-    # -------------------------
-    # Page Info & Stats
-    # -------------------------
-    # category = fields.Char(
-    #     string="Category",
-    #     help="Primary category of the page (e.g. Retail, Education)."
-    # )
-    # fan_count = fields.Integer(
-    #     string="Fans / Likes",
-    #     help="Total number of fans or likes of the page."
-    # )
-    # followers_count = fields.Integer(
-    #     string="Followers",
-    #     help="Total number of followers of the page."
-    # )
-    # rating_count = fields.Integer(
-    #     string="Rating Count",
-    #     help="Number of ratings the page has received."
-    # )
-    # overall_star_rating = fields.Float(
-    #     string="Star Rating",
-    #     help="Overall average rating of the page (if available)."
-    # )
 
     # -------------------------
     # Status & Meta
     # -------------------------
-    is_published = fields.Boolean(
-        string="Published",
-        help="Whether the page is currently published."
-    )
-    verification_status = fields.Selection(
+    state = fields.Selection(
         [
-            ("verified", "Verified"),
-            ("unverified", "Unverified"),
-            ("in_progress", "Verification in Progress"),
+            ("active", "Active"),
+            ("inactive", "Inactive"),
         ],
         string="Verification Status",
         help="Verification status of the page."

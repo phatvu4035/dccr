@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ads_manager_account_all,ads_manager_account all,model_ads_manager_account,base.group_user,1,1,1,1
+access_ads_account_all,ads.account all,model_ads_account,base.group_user,1,1,1,1
+access_social_network_page_all,social.network.page all,model_social_network_page,base.group_user,1,1,1,1
+access_ads_campaign_all,ads.campaign all,model_ads_campaign,base.group_user,1,1,1,1
+access_page_category_all,page.category all,model_page_category,base.group_user,1,1,1,1

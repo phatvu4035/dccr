@@ -1,5 +1,5 @@
 {
-    'name': 'DCCR Ads Management',
+    'name': 'TINY Ads Management',
     'version': '1.0',
     'summary': 'Manage advertising campaigns and track performance',
     'description': """
@@ -16,16 +16,17 @@ This module is ideal for marketing teams, agencies, and businesses looking to op
     'category': 'Marketing',
     'author': 'DCCR / Phat Vu',
     'website': 'https://dccr.com',
-    'depends': ['base', 'hr_expense'],
+    'depends': ['base', 'tiny_contacts', 'hr_expense'],
     'data': [
         'security/ads_manager_security.xml',
         'security/ir.model.access.csv',
-        'views/ads_business_account_views.xml',
+        'views/ads_manager_account_views.xml',
         'views/ads_account_views.xml',
         'views/social_network_page_views.xml',
         'views/ads_campaign_views.xml',
         'views/hr_expense_views.xml',
         'views/product_product_views.xml',
+        'views/page_category_views.xml',
         'views/menu_items.xml'
     ],
     'installable': True,

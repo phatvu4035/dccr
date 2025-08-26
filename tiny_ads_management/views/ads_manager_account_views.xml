@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ads_manager_account_form" model="ir.ui.view">
+            <field name="name">ads.manager.account.form</field>
+            <field name="model">ads.manager.account</field>
+            <field name="arch" type="xml">
+                <form string="Ads Manager Account">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="platform"/>
+                                <field name="account_id" string="ID Business Management" invisible="platform != 'facebook'"/>
+                                <field name="account_id" string="ID Customer" invisible="platform != 'google'"/>
+                                <field name="account_id" string="ID Business Center" invisible="platform != 'tiktok'"/>
+                                <field name="account_id" string="ID Shop" invisible="platform != 'shopee'"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="address"/>
+                            </group>
+                            <group>
+
+                                <field name="company_name"/>
+                                <field name="connection_key" string="App ID" invisible="platform != 'facebook' and platform != 'tiktok'"/>
+                                <field name="connection_key" string="Partner ID" invisible="platform != 'shopee'"/>
+                                <field name="connection_key" string="Client ID" invisible="platform != 'google'"/>
+
+                                <field name="connection_secret" string="App Secret" invisible="platform != 'facebook' and platform != 'tiktok'"/>
+                                <field name="connection_secret" string="Partner Key" invisible="platform != 'shopee'"/>
+                                <field name="connection_secret" string="Client Secret" invisible="platform != 'google'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ads_manager_account_list" model="ir.ui.view">
+            <field name="name">ads.manager.account.list</field>
+            <field name="model">ads.manager.account</field>
+            <field name="arch" type="xml">
+                <list string="List of BC, BM, Google Ads Manager Account...">
+                    <field name="name"/>
+                    <field name="platform" widget="badge" decoration-info="platform in ['facebook', 'google']"
+                       decoration-primary="platform == 'tiktok'"
+                       decoration-warning="platform == 'shopee'"
+                    />
+                    <field name="account_id"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_ads_manager_account_kanban" model="ir.ui.view">
+            <field name="name">ads.manager.account.kanban</field>
+            <field name="model">ads.manager.account</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="card">
+                            <div class="row">
+                                <div class="col-6">
+                                    <field class="fw-bolder" name="name"/>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <field name="platform" widget="badge" decoration-info="platform in ['facebook', 'google']"
+                                       decoration-primary="platform == 'tiktok'"
+                                       decoration-warning="platform == 'shopee'"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <strong invisible="platform != 'facebook'">ID Business Management: </strong>
+                                <strong invisible="platform != 'google'">ID Customer: </strong>
+                                <strong invisible="platform != 'tiktok'">ID Business Center: </strong>
+                                <strong invisible="platform != 'shopee'">ID Shop: </strong>
+                                <field name="account_id"/>
+                            </div>
+                            <div>
+                                <strong>Email: </strong>
+                                <field name="email"/>
+                            </div>
+                            <div>
+                                <strong>Phone: </strong>
+                                <field name="phone"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_ads_manager_account_search" model="ir.ui.view">
+            <field name="name">ads.manager.account.search</field>
+            <field name="model">ads.manager.account</field>
+            <field name="arch" type="xml">
+                <search string="Ads Business Account">
+                    <field name="name" string="Account Name"/>
+                    <field name="account_id" string="Connection ID"/>
+                    <filter string="Facebook" name="facebook" domain="[('platform','=','facebook')]"/>
+                    <filter string="Google" name="google" domain="[('platform','=','google')]"/>
+                    <filter string="Tiktok" name="tiktok" domain="[('platform','=','tiktok')]"/>
+                    <filter string="Shopee" name="shopee" domain="[('platform','=','shopee')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Platform" name="platform" context="{'group_by':'platform'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ads_manager_account" model="ir.actions.act_window">
+            <field name="name">Ads Manager Account</field>
+            <field name="res_model">ads.manager.account</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="tiny_ads_management.view_ads_manager_account_search"/>
+             <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Ads Manager Account
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

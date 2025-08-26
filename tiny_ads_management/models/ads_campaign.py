@@ -48,16 +48,19 @@ class AdsCampaign(models.Model):
         string="Objective",
         help="The marketing objective of this campaign, e.g., traffic, sales, or brand awareness."
     )
-    status = fields.Selection(
+    utm_source_id = fields.Many2one("utm.source", string="Source")
+    marketing_user_id = fields.Many2one("res.users", _compute="_compute_utm_source_field", string="Marketing User")
+    marketing_team_id = fields.Many2one("crm.team", _compute="_compute_utm_source_field", string="Marketing Team")
+    marketing_company_id = fields.Many2one("crm.team", _compute="_compute_utm_source_field", string="Marketing Company")
+    marketing_brand_id = fields.Many2one("utm.medium", _compute="_compute_utm_source_field", string="MKT Brand")
+
+    company_id = fields.Many2one("res.company", string="Company")
+    state = fields.Selection(
         selection=[
             ("active", "Active"),
-            ("paused", "Paused"),
-            ("deleted", "Deleted"),
-            ("completed", "Completed"),
-            ("draft", "Draft"),
+            ("disabled", "Disabled")
         ],
         string="Status",
-        default="draft",
         help="Current status of the campaign."
     )
 
@@ -98,25 +101,19 @@ class AdsCampaign(models.Model):
     )
     ctr = fields.Float(
         string="CTR (%)",
-        compute="_compute_ctr",
-        store=True,
         help="Click-through rate of the campaign: (clicks / impressions) * 100."
     )
-    spend = fields.Monetary(
+    spent = fields.Monetary(
         string="Spend",
         currency_field="currency_id",
         help="Total money spent on this campaign."
     )
     cpc = fields.Float(
         string="CPC (Cost per Click)",
-        compute="_compute_cpc",
-        store=True,
         help="Average cost per click = Spend / Clicks."
     )
     cpm = fields.Float(
         string="CPM (Cost per 1000 Impressions)",
-        compute="_compute_cpm",
-        store=True,
         help="Average cost per thousand impressions."
     )
     conversions = fields.Integer(
@@ -125,8 +122,6 @@ class AdsCampaign(models.Model):
     )
     conversion_rate = fields.Float(
         string="Conversion Rate (%)",
-        compute="_compute_conversion_rate",
-        store=True,
         help="Conversion rate = (conversions / clicks) * 100."
     )
 
@@ -139,30 +134,17 @@ class AdsCampaign(models.Model):
         string="Updated Time",
         help="The date and time when the campaign was last updated on the platform."
     )
-    sync_status = fields.Selection(
-        selection=[
-            ("synced", "Synced"),
-            ("pending", "Pending"),
-            ("failed", "Failed"),
-        ],
-        string="Sync Status",
-        default="pending",
-        help="Synchronization status between Odoo and the ad platform."
-    )
 
-    # --- Compute Methods ---
-    def _compute_ctr(self):
-        for record in self:
-            record.ctr = (record.clicks / record.impressions * 100) if record.impressions else 0
+    def _compute_utm_source_field(self):
+        for rec in self:
+            if not rec.utm_source_id:
+                continue
+            rec.marketing_user_id = rec.utm_source_id.marketing_user_id
+            rec.marketing_team_id = rec.utm_source_id.marketing_team_id
+            rec.marketing_company_id = rec.utm_source_id.marketing_company_id
+            rec.marketing_brand_id = rec.utm_source_id.marketing_brand_id
 
-    def _compute_cpc(self):
-        for record in self:
-            record.cpc = (record.spend / record.clicks) if record.clicks else 0
-
-    def _compute_cpm(self):
-        for record in self:
-            record.cpm = (record.spend / record.impressions * 1000) if record.impressions else 0
-
-    def _compute_conversion_rate(self):
-        for record in self:
-            record.conversion_rate = (record.conversions / record.clicks * 100) if record.clicks else 0
+    def _search_marketing_users(self, operator, value):
+        marketing_users = self.env['res.users'].search([('name', 'ilike', f"%{value}%")])
+        utm_sources = self.env['utm.source'].search([('marketing_user_id', 'in', marketing_users.ids)])
+        return [('utm_source_id', 'in', utm_sources.ids)]

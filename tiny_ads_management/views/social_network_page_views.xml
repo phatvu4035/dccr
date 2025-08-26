@@ -6,22 +6,26 @@
             <field name="model">social.network.page</field>
             <field name="arch" type="xml">
                 <form string="Social Network Page">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="name"/>
                                 <field name="page_id"/>
                                 <field name="platform"/>
-                                <field name="link"/>
+                                <field name="ad_account_id" domain="[('platform', '=', platform)]"/>
+                                <field name="description"/>
+                                <field name="url"/>
+                            </group>
+                            <group>
+                                <field name="profile_picture_url"/>
                                 <field name="phone"/>
                                 <field name="email"/>
                                 <field name="website"/>
                                 <field name="address"/>
-                            </group>
-                            <group>
-                                <field name="ad_account_id" domain="[('platform', '=', platform)]"/>
-                                <field name="is_published"/>
-                                <field name="verification_status"/>
+                                <field name="state"/>
                             </group>
                         </group>
                     </sheet>
@@ -40,7 +44,8 @@
                     <field name="platform"/>
                     <field name="phone"/>
                     <field name="email"/>
-                    <field name="is_published"/>
+                    <field name="state" widget="badge" invisible="state != 'active'" options="{'class': 'bg-success'}"/>
+                    <field name="state" widget="badge" invisible="state != 'inactive'" options="{'class': 'bg-secondary'}"/>
                 </list>
             </field>
         </record>
@@ -51,35 +56,43 @@
             <field name="arch" type="xml">
                 <kanban class="o_kanban_mobile">
                     <templates>
-                        <t t-name="card">
-                            <div class="row">
-                                <div class="col-8">
-                                    <field class="fw-bolder" name="name"/>
+                        <t t-name="card" class="flex-row">
+                            <aside class="o_kanban_aside_full">
+                                <field name="profile_picture_url" widget="image_url"/>
+                            </aside>
+                            <main class="ms-2">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <field class="fw-bolder" name="name"/>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <field class="badge rounded-pill" name="platform" decoration-info="platform == 'facebook' or platform == 'google'"
+                                        decoration-warning="platform == 'tiktok'"
+                                        decoration-success="platform == 'shopee'"/>
+                                    </div>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <field class="badge rounded-pill" name="platform"/>
+                                <div>
+                                    <strong>Page ID: </strong>
+                                    <field name="page_id"/>
                                 </div>
-                            </div>
-                            <div>
-                                <strong>Page ID: </strong>
-                                <field name="page_id"/>
-                            </div>
-                            <div>
-                                <strong>Ads Account: </strong>
-                                <field name="ad_account_id"/>
-                            </div>
-                            <div>
-                                <strong>Phone: </strong>
-                                <field name="phone"/>
-                            </div>
-                            <div>
-                                <strong>Email: </strong>
-                                <field name="email"/>
-                            </div>
-
-                            <div>
-                                <field name="is_published" widget="boolean_toggle"/>
-                            </div>
+                                <div>
+                                    <strong>Ads Account: </strong>
+                                    <field name="ad_account_id"/>
+                                </div>
+                                <div>
+                                    <strong>Phone: </strong>
+                                    <field name="phone"/>
+                                </div>
+                                <div>
+                                    <strong>Email: </strong>
+                                    <field name="email"/>
+                                </div>
+                                <div>
+                                    <strong>State: </strong>
+                                    <field name="state" widget="badge" invisible="state != 'active'" options="{'class': 'bg-success'}"/>
+                                    <field name="state" widget="badge" invisible="state != 'inactive'" options="{'class': 'bg-secondary'}"/>
+                                </div>
+                            </main>
                         </t>
                     </templates>
                 </kanban>
@@ -93,14 +106,19 @@
                 <search string="Social Network Pages">
                     <field name="name" string="Page Name"/>
                     <field name="page_id" string="Page ID"/>
+                    <field name="ad_account_id" string="Ad Account"/>
                     <filter string="Facebook" name="facebook" domain="[('platform','=','facebook')]"/>
                     <filter string="Google" name="google" domain="[('platform','=','google')]"/>
                     <filter string="Tiktok" name="tiktok" domain="[('platform','=','tiktok')]"/>
                     <filter string="Shopee" name="shopee" domain="[('platform','=','shopee')]"/>
                     <separator/>
+                    <filter string="Active" name="active" domain="[('state','=','active')]"/>
+                    <filter string="Inactive" name="inactive" domain="[('state','=','inactive')]"/>
+                    <separator/>
                     <group expand="0" string="Group By">
                         <filter string="Platform" name="platform" context="{'group_by':'platform'}"/>
                         <filter string="Ads Account" name="ad_account_id" context="{'group_by':'ad_account_id'}"/>
+                        <filter string="State" name="state" context="{'group_by':'state'}"/>
                     </group>
                 </search>
             </field>
@@ -110,7 +128,7 @@
             <field name="name">Social Network Pages</field>
             <field name="res_model">social.network.page</field>
             <field name="view_mode">list,kanban,form</field>
-            <field name="search_view_id" ref="dccr_ads_management.view_social_network_page_search"/>
+            <field name="search_view_id" ref="tiny_ads_management.view_social_network_page_search"/>
              <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">

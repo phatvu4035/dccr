@@ -33,9 +33,9 @@ class AdsAccount(models.Model):
     mapped_expense_ad_account_id = fields.Many2one("tiny.expense.ad.account", string="Expense Ad Account")
     acc_number = fields.Char("Account Number", related="mapped_expense_ad_account_id.acc_number")
     acc_name = fields.Char("Account Name", related="mapped_expense_ad_account_id.acc_name")
-    employee_id = fields.Char("Managing Employee", related="mapped_expense_ad_account_id.employee_id")
-    possession_type = fields.Char("Possession Type", related="mapped_expense_ad_account_id.possession_type")
-    bank_id = fields.Char("Bank", related="mapped_expense_ad_account_id.bank_id")
+    employee_id = fields.Many2one(string="Managing Employee", related="mapped_expense_ad_account_id.employee_id")
+    possession_type = fields.Selection(string="Possession Type", related="mapped_expense_ad_account_id.possession_type")
+    bank_id = fields.Many2one(string="Bank", related="mapped_expense_ad_account_id.bank_id")
     marketing_employee_ids = fields.Many2many(string="Marketing Employees", related="mapped_expense_ad_account_id.marketing_employee_ids")
 
     # --- Campaign ---
